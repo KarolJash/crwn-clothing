@@ -6,12 +6,14 @@ import {
 import {
     persistStore
 } from 'redux-persist'
+import createSagaMiddleware from 'redux-saga'
 
-import thunk from 'redux-thunk';
+import rootSaga from './root-saga'
 
 import rootReducer from './root-reducer'
 
-const middleware = [thunk];
+const sagaMiddleware = createSagaMiddleware()
+const middleware = [sagaMiddleware];
 
 const dev = () => {
     // allows us to use the redux dev tools middleware (only in development)
@@ -27,5 +29,6 @@ const dev = () => {
 
 export const store = createStore(rootReducer, dev());
 
+sagaMiddleware.run(rootSaga)
 
 export const persistor = persistStore(store)
